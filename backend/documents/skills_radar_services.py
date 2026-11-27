@@ -16,7 +16,7 @@ from .program_status_services import (
 
 PAGE_SIZE = 20
 AL_FANAR_PROGRAM = "project control professional level 6 - al fanar"
-TEST_TOKEN = re.compile('CHANGE_ME', re.IGNORECASE)
+TEST_TOKEN = re.compile(r"(^|[^a-z])test([^a-z]|$)", re.IGNORECASE)
 
 
 def _skills_radar_state(row):

@@ -17,7 +17,7 @@ PAGE_SIZE = 20
 MIN_YEAR = 2024
 MAX_YEAR_OFFSET = 5
 AL_FANAR_PROGRAM = "project control professional level 6 - al fanar"
-TEST_TOKEN = re.compile('CHANGE_ME', re.IGNORECASE)
+TEST_TOKEN = re.compile(r"(^|[^a-z])test([^a-z]|$)", re.IGNORECASE)
 MONTH_LABELS = (
     "Jan",
     "Feb",

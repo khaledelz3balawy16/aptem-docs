@@ -2,8 +2,8 @@
 
 Ported from the Google Apps Script `loginToAptem` + evidence fetch logic:
   GET the LogOn page -> read the __RequestVerificationToken (CSRF) ->
-  POST credentials -> the session picks up the CHANGE_ME cookie ->
-  call OData with X-API-Token + Cookie + Authorization: Bearer <CHANGE_ME>.
+  POST credentials -> the session picks up the AUTHTOKEN cookie ->
+  call OData with X-API-Token + Cookie + Authorization: Bearer <AUTHTOKEN>.
 """
 
 import re
@@ -20,8 +20,8 @@ class AptemClient:
     def __init__(self):
         self.base_url = settings.APTEM_BASE_URL.rstrip("/")
         self.email = settings.APTEM_EMAIL
-        self.password = CHANGE_ME
-        self.api_token = CHANGE_ME
+        self.password = settings.APTEM_PASSWORD
+        self.api_token = settings.APTEM_API_TOKEN
         self.session = requests.Session()
         self.session.headers.update({"User-Agent": "Mozilla/5.0"})
         self.auth_token = None
@@ -50,10 +50,10 @@ class AptemClient:
             timeout=30,
         )
 
-        self.auth_token = self.session.cookies.get('CHANGE_ME')
+        self.auth_token = self.session.cookies.get("AUTHTOKEN")
         if not self.auth_token:
             raise AptemAuthError(
-                "Login failed: no CHANGE_ME cookie returned. "
+                "Login failed: no AUTHTOKEN cookie returned. "
                 "Check APTEM_EMAIL / APTEM_PASSWORD in .env."
             )
         return self.auth_token
